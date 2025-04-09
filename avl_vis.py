@@ -191,7 +191,7 @@ class AVL:
         rotation_canvas.create_text(200, 250, text="Rotating...", font=("Arial", 12, "bold"), fill="black")
 
         rotation_canvas.update()
-        time.sleep(1.5)
+        time.sleep(2)
 
         # After rotation
         rotation_canvas.delete("all")
@@ -215,7 +215,7 @@ class AVL:
                 rotation_canvas.create_text(160, 220, text=str(third_node.val), font=("Arial", 12, "bold"))
 
         rotation_canvas.update()
-        time.sleep(1.5)
+        time.sleep(2)
 
         rotation_window.destroy()
 

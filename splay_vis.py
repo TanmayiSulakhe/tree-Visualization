@@ -51,45 +51,71 @@ class SplayTree:
     def delete(self, key):
         self.visualizer.update_message(f"Deleting {key}...")
         time.sleep(1)
-        self.root = self._delete(self.root, key)
-        self.visualizer.update_message(f"{key} deleted successfully (if it existed).")
+        
+        if not self.root:
+            self.visualizer.update_message("Tree is empty!")
+            return
+            
+        # Splay the node to delete to root
+        self.root = self._splay(self.root, key)
+        
+        if self.root.val != key:
+            self.visualizer.update_message(f"{key} not found in tree!")
+            return
+            
+        # Now delete the root
+        if not self.root.left:
+            self.root = self.root.right
+        else:
+            right_child = self.root.right
+            self.root = self._splay(self.root.left, key)  # Splay max in left subtree
+            self.root.right = right_child
+            
+        self.visualizer.update_message(f"{key} deleted successfully!")
         self.visualizer.draw_tree()
+        
+    # def delete(self, key):
+    #     self.visualizer.update_message(f"Deleting {key}...")
+    #     time.sleep(1)
+    #     self.root = self._delete(self.root, key)
+    #     self.visualizer.update_message(f"{key} deleted successfully (if it existed).")
+    #     self.visualizer.draw_tree()
 
-    def _delete(self, root, key):
-        if not root:
-            return None
+    # def _delete(self, root, key):
+    #     if not root:
+    #         return None
 
-        root = self._splay(root, key)
-        self.visualizer.draw_tree()
-        time.sleep(1)
+    #     root = self._splay(root, key)
+    #     # self.visualizer.draw_tree()
+    #     # time.sleep(1)
 
-        if root.val != key:
-            self.visualizer.update_message(f"{key} does not exist.")
-            time.sleep(1)
-            return root  # Key not found
+    #     if root.val != key:
+    #         self.visualizer.update_message(f"{key} does not exist.")
+    #         time.sleep(1)
+    #         return root  # Key not found
 
-        if not root.left:
-            self.visualizer.update_message(f"Right child is the new root")
-            time.sleep(1)
-            return root.right
-        if not root.right:
-            self.visualizer.update_message(f"Left child is the new root")
-            time.sleep(1)
-            return root.left
+    #     if not root.left:
+    #         self.visualizer.update_message(f"Right child is the new root")
+    #         time.sleep(1)
+    #         return root.right
+    #     if not root.right:
+    #         self.visualizer.update_message(f"Left child is the new root")
+    #         time.sleep(1)
+    #         return root.left
 
-        new_root = self._splay(root.left, key)
+    #     new_root = self._splay(root.left, key)
 
-        # self.visualizer.draw_tree()
-        # time.sleep(1)
+    #     # self.visualizer.draw_tree()
+    #     # time.sleep(1)
 
-        self.visualizer.update_message(f"tree has both left and right child")
-        time.sleep(1)
+    #     self.visualizer.update_message(f"tree has both left and right child")
+    #     time.sleep(1)
 
-        self.visualizer.update_message(f"New root is {new_root.val}")
-        time.sleep(1)
+    #     self.visualizer.update_message(f"New root is {new_root.val}")
+    #     time.sleep(1)
 
-        new_root.right = root.right
-        return new_root
+    #     new_root.right = root.right
+    #     return new_root
     
     # when i insert 2, 3, 0 after inserting 0 i can only see 3 on the screen , 
     # then when i insert 4, i can only see 0 on the screen , 
@@ -107,7 +133,7 @@ class SplayTree:
                 return root
 
             if key < root.left.val:  # Zig-Zig case (Left-Left)
-                self.visualizer.update_message("Performing Zig-Zig (Left-Left) Rotation.")
+                self.visualizer.update_message("Performing Zag-Zag Rigth-right Rotation.")
                 root.left.left = self._splay(root.left.left, key)
                 root = self._rotate_right(root)
 
@@ -125,8 +151,8 @@ class SplayTree:
                 self.visualizer.update_message(f"Key {key} not found in right subtree.")
                 return root
 
-            if key > root.right.val:  # Zig-Zig case (Right-Right)
-                self.visualizer.update_message("Performing Zig-Zig (Right-Right) Rotation.")
+            if key > root.right.val: 
+                self.visualizer.update_message("Performing Zig-Zig (Left-Left) Rotation.")
                 root.right.right = self._splay(root.right.right, key)
                 root = self._rotate_left(root)
 
