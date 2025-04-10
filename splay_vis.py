@@ -248,27 +248,63 @@ class SplayTree:
 # GUI Class using Tkinter
 class SplayTreeVisualizer:
     def __init__(self, master):
+        # self.master = master
+        # self.master.title("Splay Tree Visualizer")
+
+        # self.splay_tree = SplayTree(self)
+
+        # self.canvas = tk.Canvas(master, width=500, height=350, bg="white")
+        # self.canvas.pack()
+
+        # self.entry = tk.Entry(master)
+        # self.entry.pack()
+
+        # self.insert_button = tk.Button(master, text="Insert", command=self.insert_value)
+        # self.insert_button.pack()
+
+        # self.delete_button = tk.Button(master, text="Delete", command=self.delete_value)
+        # self.delete_button.pack()
+
+        # self.message_label = tk.Label(master, text="Welcome!", fg="blue")
+        # self.message_label.pack()
+
+        # self.draw_tree()
+
         self.master = master
         self.master.title("Splay Tree Visualizer")
 
         self.splay_tree = SplayTree(self)
 
-        self.canvas = tk.Canvas(master, width=500, height=350, bg="white")
-        self.canvas.pack()
+        # Main frame to hold everything
+        main_frame = tk.Frame(master)
+        main_frame.pack(padx=10, pady=10)
 
-        self.entry = tk.Entry(master)
-        self.entry.pack()
+        # # Canvas for drawing tree
+        # self.canvas = tk.Canvas(main_frame, width=600, height=400, bg="white", bd=2, relief="sunken")
+        # self.canvas.grid(row=0, column=0, columnspan=3, padx=5, pady=5)
 
-        self.insert_button = tk.Button(master, text="Insert", command=self.insert_value)
-        self.insert_button.pack()
+        # Entry widget
+        tk.Label(main_frame, text="Enter value:").grid(row=1, column=0, pady=5, sticky="e")
+        self.entry = tk.Entry(main_frame, width=10)
+        self.entry.grid(row=1, column=1, pady=5, sticky="w")
 
-        self.delete_button = tk.Button(master, text="Delete", command=self.delete_value)
-        self.delete_button.pack()
+        # Insert & Delete buttons
+        self.insert_button = tk.Button(main_frame, text="Insert", width=10, command=self.insert_value)
+        self.insert_button.grid(row=2, column=0, pady=5)
 
-        self.message_label = tk.Label(master, text="Welcome!", fg="blue")
-        self.message_label.pack()
+        self.delete_button = tk.Button(main_frame, text="Delete", width=10, command=self.delete_value)
+        self.delete_button.grid(row=2, column=1, pady=5)
+
+        # Message Label
+        self.message_label = tk.Label(main_frame, text="Welcome!", fg="blue", font=("Arial", 10, "italic"))
+        self.message_label.grid(row=3, column=0, columnspan=3, pady=(10, 0))
+
+        # Canvas for drawing tree
+        self.canvas = tk.Canvas(main_frame, width=600, height=400, bg="white", bd=2, relief="sunken")
+        self.canvas.grid(row=4, column=0, columnspan=3, padx=5, pady=5)
 
         self.draw_tree()
+
 
     def insert_value(self):
         value = self.entry.get()
